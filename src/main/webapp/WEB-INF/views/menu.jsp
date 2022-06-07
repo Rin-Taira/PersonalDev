@@ -93,7 +93,7 @@ $(function() {
 					</c:if>
 					<button class="open" id="${menu.menuId}">注文する</button>
 					<button class="close" id="${menu.menuId}">閉じる</button>
-					<div class="${menu.menuId}">
+					<div class="passive ${menu.menuId}">
 						<c:if test="${menu.categoryId == 2}">
 							<input type="checkbox" name="big">大にする
 						</c:if>
