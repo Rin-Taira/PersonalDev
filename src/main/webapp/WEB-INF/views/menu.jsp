@@ -12,7 +12,26 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+
+$(function() {
+	$(".open").on("click", function() {
+		var id = $(this).attr("id");
+		$('.' + id).show("normal");
+	});
+	$(".close").on("click", function() {
+		var id2 = $(this).attr("id");
+		$('.' + id2).hide("normal");
+	});
+});
+
+</script>
+
 </head>
+
+
 <body>
 	<c:if test="${empty user}">
 		<c:redirect url="/index" />
@@ -58,22 +77,31 @@
 			</select>
 			<input type="submit" value="&#xf002">
 		</form>
-
 		
 		<h1>${category.name}</h1>
 		<c:forEach var="menuList" items="${menuListList}" varStatus="status">
 			<h1>${categoryList[status.index].name}</h1>
 			<c:forEach var="menu" items="${menuList}">
 				<div>
-					<a href="detail?id=${menu.menuId}">
-						<h2>${menu.menuName}</h2>
-						<p>${menu.price}</p>
-						<p>${menu.introduce}</p>
-						<c:if test="${menu.reviewAmount > 0}">
-							<p>${menu.reviewAmount}</p>
-							<p>${menu.reviewStarAmount / menu.reviewAmount}</p>
+					<h2>${menu.menuName}</h2>
+					<p>${menu.price}</p>
+					<p>${menu.introduce}</p>
+					<c:if test="${menu.reviewAmount > 0}">
+						<p>${menu.reviewAmount}</p>
+						<p>${menu.reviewStarAmount / menu.reviewAmount}</p>
+						<a href="review">レビューを見る</a>
+					</c:if>
+					<button class="open" id="${menu.menuId}">注文する</button>
+					<button class="close" id="${menu.menuId}">閉じる</button>
+					<div class="${menu.menuId}">
+						<c:if test="${menu.categoryId == 2}">
+							<input type="checkbox" name="big">大にする
 						</c:if>
-					</a>
+						<c:if test="${menu.categoryId == 2 || menu.categoryId == 3}">
+							<input type="checkbox" name="brown">玄米にする
+							<input type="checkbox" name="rice_big">ごはんを大盛にする
+						</c:if>
+					</div>
 				</div>
 			</c:forEach>
 		</c:forEach>
