@@ -106,7 +106,9 @@ $(function() {
 			<c:forEach var="menu" items="${menuList}">
 				<div>
 					<div class="open" id="${menu.id}">
-						<h2>${menu.menuName} レビュー件数: ${menu.reviewAmount} 評価: ${menu.reviewStarAmount / menu.reviewAmount}</h2>
+						<h2>${menu.menuName} レビュー件数: ${menu.reviewAmount}
+							<c:if test="${menu.reviewAmount != 0}">評価: ${menu.reviewStarAmount / menu.reviewAmount}</c:if>
+						</h2>
 						<p>基本価格: ${menu.price}</p>
 						<p>${menu.description}</p>
 					</div>
@@ -137,51 +139,11 @@ $(function() {
 					</div>
 					<c:if test="${menu.reviewAmount > 0}">
 						<a href="review?id=${menu.id}">レビューを見る</a>
-						<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
 					</c:if>
+					<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
 				</div>
 			</c:forEach>
 		</c:forEach>
-			
-		
-		<%--
-		<table>
-			<div class="caption">
-				<p>検索結果: ${fn:length(productList)}件</p>
-			</div>
-			
-			<thead>
-				<tr>
-					<th>商品ID</th>
-					<th>商品名</th>
-					<th>単価</th>
-					<th>カテゴリ</th>
-					<th>詳細</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="product" items="${productList}">
-					<form:form action="detail" modelAttribute="product" method="get">
-						<form:input type="hidden" path="productId" value="${product.productId}"/>
-						<form:input type="hidden" path="categoryId" value="${product.categoryId}"/>
-						<form:input type="hidden" path="categoryName" value="${product.categoryName}"/>
-						<form:input type="hidden" path="name" value="${product.name}"/>
-						<form:input type="hidden" path="price" value="${product.price}"/>
-						<form:input type="hidden" path="description" value="${product.description}"/>
-						<form:input type="hidden" path="createdDate" value="${product.createdDate}"/>
-						<form:input type="hidden" path="updatedDate" value="${product.updatedDate}"/>
-						<tr>
-							<td>${fn:escapeXml(product.productId)}</td>
-							<td>${fn:escapeXml(product.name)}</td>
-							<td>${fn:escapeXml(product.price)}</td>
-							<td>${fn:escapeXml(product.categoryName)}</td>
-							<td><button type="submit" class="detail_btn" name="id" value="${product.productId}">詳細</button></td>
-						</tr>
-						</form:form>
-				</c:forEach>
-			</tbody>
-		</table>
-		--%>
 		
 	</div>
 	<footer></footer>

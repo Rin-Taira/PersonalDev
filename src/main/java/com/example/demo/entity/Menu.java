@@ -9,7 +9,7 @@ public class Menu {
 	private String categoryName;
 	private String description;
 	private int reviewAmount;
-	private int reviewStarAmount;
+	private Integer reviewStarAmount;
 	public int getId() {
 		return id;
 	}
@@ -52,10 +52,10 @@ public class Menu {
 	public void setReviewAmount(int reviewAmount) {
 		this.reviewAmount = reviewAmount;
 	}
-	public int getReviewStarAmount() {
+	public Integer getReviewStarAmount() {
 		return reviewStarAmount;
 	}
-	public void setReviewStarAmount(int reviewStarAmount) {
+	public void setReviewStarAmount(Integer reviewStarAmount) {
 		this.reviewStarAmount = reviewStarAmount;
 	}
 	
