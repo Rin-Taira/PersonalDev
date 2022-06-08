@@ -15,18 +15,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <script>
-
-$(function() {
-	$(".open").on("click", function() {
-		var id = $(this).attr("id");
-		$('.' + id).slideDown("normal");
-	});
-	$(".close").on("click", function() {
-		var id2 = $(this).attr("id");
-		$('.' + id2).slideUp("normal");
-	});
-});
-
 </script>
 
 </head>
@@ -55,17 +43,6 @@ $(function() {
 		</div>
 
 		<hr>
-
-		<c:if test="${user.roleFlag == 0}">
-			<div class="btn">
-				<a class="basic_btn regist" href="insert">新規弁当登録</a>
-			</div>
-		</c:if>
-		<p>
-			<c:if test="${not empty msg}">
-				<p class="user_name">${msg}</p>
-			</c:if>
-		</p>
 		
 		<div>
 			<h1>${orderMsg}</h1>
@@ -75,72 +52,29 @@ $(function() {
 			<c:if test="${todayManager.paypayFlag == 1}">
 				<p>paypay対応</p>
 			</c:if>
-			<a href="orderDetail">本日の注文を確認する</a>
 		</div>
-		<div>
-			<h1>本日のあなたの注文</h1>
-			<c:if test="${empty myOrderList}">
-				<p>本日はまだ注文していませんよ。おわすれなく！</p>
-			</c:if>
-			<c:forEach var="myTodayOrder" items="${myOrderList}">
-				<p>${myTodayOrder.menuName}</p>
+		<a href="updateManager">注文を完了しました。</a>
+		<c:if test="${orderList}">
+			<h1>本日はまだ注文がありません。</h1>
+		</c:if>
+		<c:forEach var="order" items="${orderList}">
+			<div>
+				<p>${order.userName}</p>
+				<p>${order.menuName}</p>
 				<div>サイズ:
-					<c:if test="${myTodayOrder.bigFlag == 0}">小</c:if>
-					<c:if test="${myTodayOrder.bigFlag == 1}">大</c:if>
+					<c:if test="${order.bigFlag == 0}">小</c:if>
+					<c:if test="${order.bigFlag == 1}">大</c:if>
 				</div>
 				<div>ご飯の種類:
-					<c:if test="${myTodayOrder.brownFlag == 0}">白米</c:if>
-					<c:if test="${myTodayOrder.brownFlag == 1}">玄米</c:if>
+					<c:if test="${order.brownFlag == 0}">白米</c:if>
+					<c:if test="${order.brownFlag == 1}">玄米</c:if>
 				</div>
 				<div>ご飯の量:
-					<c:if test="${myTodayOrder.riceIncFlag == 0}">普通盛り</c:if>
-					<c:if test="${myTodayOrder.riceIncFlag == 1}">大盛り</c:if>
+					<c:if test="${order.riceIncFlag == 0}">普通盛り</c:if>
+					<c:if test="${order.riceIncFlag == 1}">大盛り</c:if>
 				</div>
-				<p>価格: ${myTodayOrder.price}</p>
-			</c:forEach>
-			<a href="deleteTodayOrder">本日の注文を取り消す</a>
-		</div>
-		<h1>${category.name}</h1>
-		<c:forEach var="menuList" items="${menuListList}" varStatus="status">
-			<h1>${categoryList[status.index].name}</h1>
-			<c:forEach var="menu" items="${menuList}">
-				<div>
-					<div class="open" id="${menu.id}">
-						<h2>${menu.menuName} レビュー件数: ${menu.reviewAmount} 評価: ${menu.reviewStarAmount / menu.reviewAmount}</h2>
-						<p>基本価格: ${menu.price}</p>
-						<p>${menu.description}</p>
-					</div>
-					<div class="passive ${menu.id}">
-						<form action="orderCommit" method="get">
-							<input type="hidden" name="id" value="${menu.id}">
-							<div>サイズ
-							<input type="radio" name="big" value="0" checked>小
-								<c:if test="${menu.categoryId == 1}">
-									<input type="radio" name="big" value="1">大
-								</c:if>
-							</div>
-							<div>お米の種類
-								<input type="radio" name="brown" value="0" checked>白米
-								<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
-									<input type="radio" name="brown" value="1">玄米
-								</c:if>
-							</div>
-							<div>ご飯の量
-								<input type="radio" name="rice_big" value="0" checked>普通盛り
-								<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
-									<input type="radio" name="rice_big" value="1">大盛り
-								</c:if>
-							</div>
-							<button type="submit">注文を確定する</button>
-						</form>
-						<span class="close" id="${menu.id}">△</span>
-					</div>
-					<c:if test="${menu.reviewAmount > 0}">
-						<a href="review?id=${menu.id}">レビューを見る</a>
-						<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
-					</c:if>
-				</div>
-			</c:forEach>
+				<p>価格: ${order.price}</p>
+			</div>
 		</c:forEach>
 			
 		

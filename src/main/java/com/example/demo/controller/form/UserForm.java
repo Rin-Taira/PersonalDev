@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 
 public class UserForm {
 
+	private int id;
+	
 	@NotEmpty(message="IDは必須です")
 	private String loginId;
 	
@@ -12,9 +14,15 @@ public class UserForm {
 	@NotEmpty(message="PASSは必須です")
     private String password;
     
-	private int paypay_flag;
-    private int role_flag;
+	private int paypayFlag;
     private String introduce;
+    private int roleFlag;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getLoginId() {
 		return loginId;
 	}
@@ -33,17 +41,11 @@ public class UserForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getPaypay_flag() {
-		return paypay_flag;
+	public int getPaypayFlag() {
+		return paypayFlag;
 	}
-	public void setPaypay_flag(int paypay_flag) {
-		this.paypay_flag = paypay_flag;
-	}
-	public int getRole_flag() {
-		return role_flag;
-	}
-	public void setRole_flag(int role_flag) {
-		this.role_flag = role_flag;
+	public void setPaypayFlag(int paypayFlag) {
+		this.paypayFlag = paypayFlag;
 	}
 	public String getIntroduce() {
 		return introduce;
@@ -51,6 +53,11 @@ public class UserForm {
 	public void setIntroduce(String introduce) {
 		this.introduce = introduce;
 	}
-
+	public int getRoleFlag() {
+		return roleFlag;
+	}
+	public void setRoleFlag(int roleFlag) {
+		this.roleFlag = roleFlag;
+	}
     
 }

@@ -23,7 +23,7 @@ public class MenuDaoImpl implements MenuDao {
 	public Menu findById(String id) {
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("id", Integer.parseInt(id));
-		List<Menu> list = jdbcTemplate.query("SELECT m.id as menu_id, m.name as menu_name, price, category_id, c.name AS category_name, introduce, review_amount, review_star_amount FROM menu AS m INNER JOIN categories AS c ON category_id = c.id WHERE m.id = :id ORDER BY m.id", param, new BeanPropertyRowMapper<Menu>(Menu.class));
+		List<Menu> list = jdbcTemplate.query("SELECT m.id as id, m.name as menu_name, price, category_id, c.name AS category_name, description, review_amount, review_star_amount FROM menu AS m INNER JOIN categories AS c ON category_id = c.id WHERE m.id = :id ORDER BY m.id", param, new BeanPropertyRowMapper<Menu>(Menu.class));
         return list.isEmpty() ? null : list.get(0);
 	}
 	
@@ -51,7 +51,7 @@ public class MenuDaoImpl implements MenuDao {
 	public List<Menu> findByCategory(int categoryId) {
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("category_id", categoryId);
-		return jdbcTemplate.query("SELECT m.id as menu_id, m.name as menu_name, price, category_id, c.name AS category_name, introduce, review_amount, review_star_amount FROM menu AS m INNER JOIN categories AS c ON category_id = c.id WHERE category_id = :category_id ORDER BY m.id", param, new BeanPropertyRowMapper<Menu>(Menu.class));
+		return jdbcTemplate.query("SELECT m.id as id, m.name as menu_name, price, category_id, c.name AS category_name, description, review_amount, review_star_amount FROM menu AS m INNER JOIN categories AS c ON category_id = c.id WHERE category_id = :category_id ORDER BY m.id", param, new BeanPropertyRowMapper<Menu>(Menu.class));
 		// https://loglog.xyz/programming/java/jdbctemplate_query_select で table名とEntityの結びつきについて学べるよ！！
 	}
 	

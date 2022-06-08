@@ -38,17 +38,6 @@
 	</c:if>
 	<p>${menu.menuName}</p>
 	<p>基本価格: ${menu.price}</p>
-	<p>${menu.introduce}</p>
-	<form action="orderAdd">
-		<c:if test="${menu.categoryId == 2}">
-			<input type="checkbox" name="big">大にする
-		</c:if>
-		<c:if test="${menu.categoryId == 2 || menu.categoryId == 3}">
-			<input type="checkbox" name="brown">玄米にする
-			<input type="checkbox" name="rice_big">ごはんを大盛にする
-		</c:if>
-		<input type="submit">
-	</form>
 	<h1>レビュー</h1>
 	<p>レビュー: ${menu.reviewAmount}件</p>
 	<c:if test="${menu.reviewAmount > 0}">

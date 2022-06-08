@@ -27,4 +27,12 @@ public class UserDaoImpl implements UserDao {
     	
     }
     
+    @Override
+    public User findById(int id) {
+    	MapSqlParameterSource param = new MapSqlParameterSource();
+		param.addValue("id", id);
+		List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE id = :id", param, new BeanPropertyRowMapper<User>(User.class));
+        return list.isEmpty() ? null : list.get(0);
+    }
+    
 }

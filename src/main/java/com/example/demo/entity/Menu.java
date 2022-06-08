@@ -2,20 +2,19 @@ package com.example.demo.entity;
 
 public class Menu {
 
-	private int menuId;
+	private int id;
 	private String menuName;
 	private int price;
 	private int categoryId;
 	private String categoryName;
-	private String introduce;
+	private String description;
 	private int reviewAmount;
 	private int reviewStarAmount;
-	
-	public int getMenuId() {
-		return menuId;
+	public int getId() {
+		return id;
 	}
-	public void setMenuId(int menuId) {
-		this.menuId = menuId;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getMenuName() {
 		return menuName;
@@ -41,11 +40,11 @@ public class Menu {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public String getIntroduce() {
-		return introduce;
+	public String getDescription() {
+		return description;
 	}
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public int getReviewAmount() {
 		return reviewAmount;
@@ -59,5 +58,6 @@ public class Menu {
 	public void setReviewStarAmount(int reviewStarAmount) {
 		this.reviewStarAmount = reviewStarAmount;
 	}
-
+	
+	
 }

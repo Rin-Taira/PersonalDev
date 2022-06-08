@@ -16,13 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.controller.form.MenuForm;
+import com.example.demo.controller.form.ReviewForm;
 import com.example.demo.controller.form.UserForm;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Menu;
+import com.example.demo.entity.Order;
 import com.example.demo.entity.Review;
 import com.example.demo.entity.User;
 import com.example.demo.service.CategoryService;
+import com.example.demo.service.ManagerService;
 import com.example.demo.service.MenuService;
+import com.example.demo.service.OrderService;
 import com.example.demo.service.ReviewService;
 import com.example.demo.service.UserService;
 
@@ -40,6 +44,12 @@ public class SystemController {
     
     @Autowired
     private ReviewService reviewService;
+    
+    @Autowired
+    private OrderService orderService;
+    
+    @Autowired
+    private ManagerService managerService;
     
     @Autowired
     HttpSession session;
@@ -70,9 +80,18 @@ public class SystemController {
     		menuListList.add(menuService.findByCategory(i));
     	}
 
+    	User todayManager = userService.findById(managerService.getTodayManager());
+    	
+    	String orderMsg = managerService.isCompleteTodayOrder();
+    	
+    	List<Order> myOrderList = orderService.findTodayOrderByUser(user.getId());
+    	
     	session.setAttribute("user", user);
     	session.setAttribute("categoryList", categoryList);
     	session.setAttribute("menuListList", menuListList);
+    	session.setAttribute("todayManager", todayManager);
+    	session.setAttribute("myOrderList", myOrderList);
+    	model.addAttribute("orderMsg", orderMsg);
     	
     	return "menu";
     }
@@ -152,8 +171,24 @@ public class SystemController {
 //    }
 //    
 //    
-    @RequestMapping(value="/detail", method=RequestMethod.GET)
-    public String detail(@RequestParam(name = "id", defaultValue = "") String id, Model model) {
+    @RequestMapping(value="/orderCommit", method=RequestMethod.GET)
+    public String orderCommit(@RequestParam(name = "id", defaultValue = "") String id, @RequestParam(name = "big", defaultValue = "") int bigFlag,
+    		@RequestParam(name = "brown", defaultValue = "") int brownFlag, @RequestParam(name = "rice_big", defaultValue = "") int riceIncFlag, Model model) {
+    	
+    	Menu menu = menuService.findById(id);
+    	
+    	Order order = new Order(menu, (User) session.getAttribute("user"), brownFlag, bigFlag, riceIncFlag);
+    	orderService.insertOrder(order);
+    	
+    	model.addAttribute("order", order);
+    	
+    	return "orderCommit";
+    	
+    }
+    
+    @RequestMapping(value="/review", method=RequestMethod.GET)
+    public String review(@RequestParam(name = "id", defaultValue = "") String id, Model model) {
+    	
     	
     	Menu menu = menuService.findById(id);
     	
@@ -162,7 +197,68 @@ public class SystemController {
     	model.addAttribute("menu", menu);
     	model.addAttribute("reviewList", reviewList);
     	
-    	return "detail";
+    	return "review";
+    	
+    }
+    
+    @RequestMapping("/updateManager")
+    public String updateManager(@ModelAttribute("user") UserForm form, Model model) {
+
+    	managerService.updateManager();
+    	User todayManager = userService.findById(managerService.getTodayManager());
+    	session.setAttribute("todayManager", todayManager);
+        return "menu";
+    }
+    
+    @RequestMapping("/orderDetail")
+    public String orderDetail(@ModelAttribute("user") UserForm form, Model model) {
+
+    	List<Order> orderList = orderService.findTodayOrder();
+    	
+    	model.addAttribute("orderList", orderList);
+    	
+        return "orderDetail";
+    }
+    
+    @RequestMapping("/deleteTodayOrder")
+    public String deleteTodayOrder(@ModelAttribute("user") UserForm form, Model model) {
+
+    	User user = (User) session.getAttribute("user");
+    	orderService.deleteTodayOrder(user.getId());
+    	
+    	List<Order> myOrderList = orderService.findTodayOrderByUser(user.getId());
+    	
+    	session.setAttribute("myOrderList", myOrderList);
+    	model.addAttribute("msg", "削除が完了しました");
+    	
+        return "menu";
+    }
+    
+    @RequestMapping(value="/reviewPost", method=RequestMethod.GET)
+    public String reviewPost(@RequestParam(name = "menuId", defaultValue = "") String menuId, @Validated @ModelAttribute("review") ReviewForm form, BindingResult bindingResult, Model model) {
+    	
+    	Menu menu = menuService.findById(menuId);
+    	
+    	model.addAttribute("menu", menu);
+    	
+    	return "reviewPost";
+    	
+    }
+    
+    @RequestMapping(value="/reviewCommit", method=RequestMethod.GET)
+    public String reviewCommit(@RequestParam(name = "menuName", defaultValue = "") String menuName, @Validated @ModelAttribute("review") ReviewForm form, BindingResult bindingResult, Model model) {
+    	
+    	if (bindingResult.hasErrors()) {
+    		return "reviewPost";
+    	}
+    	
+    	Review review = new Review(form.getMenuId(), null, form.getUserId(), null, form.getStar(), form.getReview());
+    	
+    	reviewService.insertReview(review);
+    	
+    	model.addAttribute("msg", "レビューの投稿が完了しました");
+    	
+    	return "menu";
     	
     }
 //    

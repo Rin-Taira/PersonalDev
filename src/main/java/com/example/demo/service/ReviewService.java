@@ -10,6 +10,8 @@ public interface ReviewService {
 //	public List<Menu> findByCategory(int categoryId);
 
 	public List<Review> findById(String id);
+	
+	public int insertReview(Review review);
 
 //	public Menu findById(String id);
 //	

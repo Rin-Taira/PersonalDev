@@ -1,3 +1,7 @@
 .passive {
 	display: none;
 }
+
+.open:hover, .close:hover{
+	opacity: 0.5;
+}

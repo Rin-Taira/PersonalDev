@@ -8,4 +8,6 @@ public interface ReviewDao {
 
     public List<Review> findById(String id);
     
+    public int insertReview(Review review);
+    
 }

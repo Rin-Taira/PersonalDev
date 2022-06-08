@@ -20,5 +20,9 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewDao.findById(id);
     }
 
+	@Override
+	public int insertReview(Review review) {
+		return reviewDao.insertReview(review);
+	}
 }
 

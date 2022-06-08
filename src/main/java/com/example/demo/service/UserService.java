@@ -6,5 +6,6 @@ public interface UserService {
 
     public User authentication(String id, String pass);
 
+    public User findById(int id);
 }
 

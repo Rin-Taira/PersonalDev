@@ -1,10 +1,10 @@
-package com.example.demo.controller.form;
+package com.example.demo.entity;
 
 import java.sql.Timestamp;
 
-public class OrderForm {
+public class Order {
 
-	private int menuId;
+    private int menuId;
     private String menuName;
     private int userId;
     private String userName;
@@ -13,6 +13,23 @@ public class OrderForm {
     private int riceIncFlag;
     private int price;
     private Timestamp orderDate;
+    
+    public Order() {	
+    }
+    
+    // 改善の余地あり
+    public Order(Menu menu, User user, int brownFlag, int bigFlag, int riceIncFlag) {
+    	this.menuId = menu.getId();
+    	this.menuName = menu.getMenuName();
+    	this.userId = user.getId();
+    	this.userName = user.getName();
+    	this.brownFlag = brownFlag;
+    	this.bigFlag = bigFlag;
+    	this.riceIncFlag = riceIncFlag;
+    	this.price = menu.getPrice() +  0 * brownFlag + 120 * bigFlag + 50 * riceIncFlag;
+    	this.orderDate = new Timestamp(System.currentTimeMillis());
+    }
+    
 	public int getMenuId() {
 		return menuId;
 	}
@@ -69,4 +86,5 @@ public class OrderForm {
 	}
     
 	
+
 }

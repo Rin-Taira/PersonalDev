@@ -12,6 +12,18 @@ public class Review {
     private String review;
     private Timestamp reviewDate;
     
+    public Review() {
+    }
+    
+    public Review(int menuId, String menuName, int userId, String userName, int star, String review) {
+    	this.menuId = menuId;
+    	this.menuName = menuName;
+    	this.userId = userId;
+    	this.userName = userName;
+    	this.star = star;
+    	this.review = review;
+    }
+    
 	public int getMenuId() {
 		return menuId;
 	}

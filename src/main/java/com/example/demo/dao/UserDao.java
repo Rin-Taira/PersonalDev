@@ -6,4 +6,6 @@ public interface UserDao {
 
     public User findByIdAndPass(String id, String pass);
     
+    public User findById(int id);
+    
 }
