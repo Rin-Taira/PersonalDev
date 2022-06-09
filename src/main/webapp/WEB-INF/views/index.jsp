@@ -6,36 +6,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ログイン</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link href="css/commons.css" rel="stylesheet">
 </head>
-<body class="login_body">
-	<div class="header">
-		<h1 class="site_logo">キッチントライ弁当注文</h1>
-	</div>
-
-	<div class="login_form">
-		<div class="error">
-			<c:if test="${not empty msg1}">
-				<p>${msg1}</p>
-			</c:if>
-		</div>
-
-		<form:form action="login" method="post" modelAttribute="user">
-			<fieldset>
-				<div class="cp_iptxt">
-					<form:input class="base_input" type="text" path="loginId" placeholder="ID"/>
-					<form:errors path="loginId" cssStyle="color: red"/>
-					<i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-				</div>
-
-				<div>
-					<form:input  class="base_input" type="password" path="password" placeholder="PASS"/>
-					<form:errors path="password" cssStyle="color: red"/>
-				</div>
-			</fieldset>
-			<form:button class="logout_btn" type="submit">ログイン</form:button>
+<body>
+	
+	<div id="login">
+		<h1>LunchOrder</h1>
+		<c:if test="${not empty msg1}">
+			<p>${msg1}</p>
+		</c:if>
+		<form:form action="login" method="post" modelAttribute="user" class="mb-3">
+			<div class="mb-3">
+				<form:input class="form-control" id="exampleInputEmail1" type="text" path="loginId" placeholder="ID"/>
+				<form:errors path="loginId" cssStyle="color: black"/>
+			</div>
+			<div class="mb-3">
+				<form:input  class="form-control" type="password" id="exampleInputPassword1" path="password" placeholder="PASS"/>
+				<form:errors path="password" cssStyle="color: black"/>
+			</div>
+			<form:button class="btn btn-outline-primary" type="submit">ログイン</form:button>
 		</form:form>
 	</div>
+	
+	<footer>
+		<p>©2022  RinTaira. All Rights Reserved</p>
+	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

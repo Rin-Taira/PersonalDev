@@ -178,7 +178,6 @@ public class SystemController {
     	int orderFlag = managerService.isCompleteTodayOrder();
     	
     	session.setAttribute("myOrderList", myOrderList);
-    	model.addAttribute("msg", "削除が完了しました");
     	model.addAttribute("orderFlag", orderFlag);
     	
         return "menu";

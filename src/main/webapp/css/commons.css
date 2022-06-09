@@ -1,5 +1,72 @@
+@charset "UTF-8";
+
+body {
+    background-image: url("../images/backimage.jpg");
+    background-size: 100%;
+    background-attachment: fixed;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px 0 0 15px;
+    background-color: rgba(255, 255, 255, 40%);
+    z-index: 500;
+}
+
+main {
+    margin: 100px 5% 5% 5%;
+}
+
+footer {
+    position: fixed;
+    right: 5%;
+    bottom: 0;
+    color: #eeeeee;
+}
+
+.flex {
+	display: flex;
+}
+
+.left {
+	width: 20%;
+	padding: 2%;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 80%);
+}
+
+.center {
+	width: 60%;
+	padding: 2%;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 80%);
+	margin: 0 3%;
+}
+
+.right {
+	width: 20%;
+	padding: 2%;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 80%);
+}
+
 .passive {
 	display: none;
+}
+
+#login {
+    background-color: rgba(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+    padding: 3% 3%;
+    margin: 200px 35% 5% 35%;
+}
+
+.menu {
+	border-top: 1px solid #000000;
 }
 
 .open:hover, .close:hover{
