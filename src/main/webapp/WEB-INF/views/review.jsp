@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
@@ -17,8 +18,17 @@
 	</c:if>
 	<header class="flex">
 		<h1>LunchOrder</h1>
-		<p class="user_name">${userName}さん、こんにちは</p>
-		<a href="logout">ログアウト</a>
+		<ul class="flex">
+			<li><p class="user_name">${userName}さん、こんにちは</p></li>
+			<li>
+				<a href="logout">ログアウト
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+						<path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"/>
+						<path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
+					</svg>
+				</a>
+			</li>
+		</ul>
 	</header>
 	
 	<main class="flex">
@@ -45,19 +55,18 @@
 		</div>
 		
 		<div class="center">
-			<p>${menu.menuName}</p>
-			<p>基本価格: ${menu.price}</p>
-			<h1>レビュー</h1>
-			<p>レビュー: ${menu.reviewAmount}件</p>
-			<c:if test="${menu.reviewAmount > 0}">
-				<p>評価: ${menu.reviewStarAmount / menu.reviewAmount}</p>
-			</c:if>
+			<p class="category_name">${menu.menuName}のレビュー(${menu.reviewAmount}件)
+				<c:if test="${menu.reviewAmount > 0}">平均評価:
+					<fmt:formatNumber value="${menu.reviewStarAmount / menu.reviewAmount}" maxFractionDigits="1"/>
+				</c:if>
+			</p>
 			<c:if test="${not empty reviewList}">
 				<c:forEach var="review" items="${reviewList}">
-					<p>${review.userName}</p>
-					<p>${review.star}</p>
-					<p>${review.review}</p>
-					<p>${review.reviewDate}</p>
+					<div class="menu">
+						<p>投稿者: ${review.userName}</p>
+						<p>評価: ${review.star}</p>
+						<p>${review.review}</p>
+					</div>
 				</c:forEach>
 			</c:if>
 		</div>
