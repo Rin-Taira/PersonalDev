@@ -12,6 +12,16 @@
 <body class="login_body">
 	<div class="header">
 		<h1 class="site_logo">キッチントライ弁当注文</h1>
+		<div class="user">
+			<c:if test="${not empty userName}">
+				<p class="user_name">${userName}さん、こんにちは</p>
+			</c:if>
+			<form class="logout_form" action="logout" method="post">
+				<button class="logout_btn" type="submit">
+					<img src="images/ドアアイコン.png">ログアウト
+				</button>
+			</form>
+		</div>
 	</div>
 
 	<div class="login_form">

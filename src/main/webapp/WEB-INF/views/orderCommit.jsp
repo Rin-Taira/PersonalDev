@@ -19,8 +19,8 @@
 			<a href="menu.html">キッチントライ弁当注文</a>
 		</h1>
 		<div class="user">
-			<c:if test="${not empty user}">
-				<p class="user_name">${user.name}さん、こんにちは</p>
+			<c:if test="${not empty userName}">
+				<p class="user_name">${userName}さん、こんにちは</p>
 			</c:if>
 			<form class="logout_form" action="logout" method="get">
 				<button class="logout_btn" type="submit">
@@ -51,6 +51,7 @@
 		<c:if test="${order.riceIncFlag == 1}">大盛り</c:if>
 	</div>
 	<p>価格: ${order.price}<p>
+	<a href="returnMenu">メニューに戻る</a>
 	
 </body>
 </html>

@@ -6,7 +6,7 @@ public interface ManagerService {
     
     public int getTodayManager();
     
-    public String isCompleteTodayOrder();
+    public int isCompleteTodayOrder();
 
 }
 

@@ -20,7 +20,6 @@ public class ManagerDaoImpl implements ManagerDao {
 	
 	@Override
 	public int updateManager() {
-		
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("date", LocalDate.now());
 		return jdbcTemplate.update("UPDATE manager SET updated_date = :date WHERE updated_date = (SELECT MIN(updated_date) FROM manager)", param);
@@ -38,12 +37,12 @@ public class ManagerDaoImpl implements ManagerDao {
 	}
 	
 	@Override
-	public String isCompleteTodayOrder() {
+	public int isCompleteTodayOrder() {
 		List<Manager> list = jdbcTemplate.query("SELECT * FROM manager WHERE to_char(updated_date, 'YYYY-mm=dd') = to_char(now(), 'YYYY-mm=dd')", new BeanPropertyRowMapper<Manager>(Manager.class));
 		if(list.isEmpty()) {
-			return "本日はまだ注文していません。";
+			return 0;
 		}
-		return "本日の注文は完了しました。";
+		return 1;
 	}
     
 }

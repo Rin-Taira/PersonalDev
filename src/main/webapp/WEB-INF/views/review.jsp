@@ -19,8 +19,8 @@
 			<a href="menu.html">キッチントライ弁当注文</a>
 		</h1>
 		<div class="user">
-			<c:if test="${not empty user}">
-				<p class="user_name">${user.name}さん、こんにちは</p>
+			<c:if test="${not empty userName}">
+				<p class="user_name">${userName}さん、こんにちは</p>
 			</c:if>
 			<form class="logout_form" action="logout" method="get">
 				<button class="logout_btn" type="submit">

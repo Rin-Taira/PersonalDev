@@ -23,7 +23,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public String isCompleteTodayOrder() {
+	public int isCompleteTodayOrder() {
 		return managerDao.isCompleteTodayOrder();
 	}
 }

@@ -36,51 +36,49 @@ $(function() {
 	<c:if test="${empty user}">
 		<c:redirect url="/index" />
 	</c:if>
-	<div id="app">
-
-		<div class="header">
-			<h1 class="site_logo">
-				<a href="menu.html">キッチントライ弁当注文</a>
-			</h1>
-			<div class="user">
-				<c:if test="${not empty user}">
-					<p class="user_name">${user.name}さん、こんにちは</p>
+	<header>
+		<h1>
+			<a href="menu.html">キッチントライ弁当注文</a>
+		</h1>
+		<div class="user">
+			<c:if test="${not empty userName}">
+				<p class="user_name">${userName}さん、こんにちは</p>
+			</c:if>
+			<a href="logout">ログアウト</a>
+		</div>
+	</header>
+	<main>
+		<div class="side">
+			<c:if test="${orderFlag == 0}">
+				<h1>未注文</h1>
+			</c:if>
+			<c:if test="${orderFlag == 1}">
+				<h1>注文済</h1>
+			</c:if>
+			<div>
+				<h1>${orderMsg}</h1>
+				<h1>本日の注文担当</h1>
+				<p>${todayManager.name}</p>
+				<p>${todayManager.introduce}</p>
+				<c:if test="${todayManager.paypayFlag == 1}">
+					<p>paypay対応</p>
 				</c:if>
-				<form class="logout_form" action="logout" method="post">
-					<button class="logout_btn" type="submit">
-						<img src="images/ドアアイコン.png">ログアウト
-					</button>
-				</form>
+				<a href="orderDetail">本日の注文を確認する</a>
 			</div>
 		</div>
-
-		<hr>
-
-		<c:if test="${user.roleFlag == 0}">
-			<div class="btn">
-				<a class="basic_btn regist" href="insert">新規弁当登録</a>
-			</div>
-		</c:if>
+		<div class="center">
+		</div>
 		<p>
 			<c:if test="${not empty msg}">
 				<p class="user_name">${msg}</p>
 			</c:if>
 		</p>
 		
-		<div>
-			<h1>${orderMsg}</h1>
-			<h1>本日の注文担当</h1>
-			<p>${todayManager.name}</p>
-			<p>${todayManager.introduce}</p>
-			<c:if test="${todayManager.paypayFlag == 1}">
-				<p>paypay対応</p>
-			</c:if>
-			<a href="orderDetail">本日の注文を確認する</a>
-		</div>
+		
 		<div>
 			<h1>本日のあなたの注文</h1>
 			<c:if test="${empty myOrderList}">
-				<p>本日はまだ注文していませんよ。おわすれなく！</p>
+				<p>あなたはまだ弁当を記入していませんよ。おわすれなく！</p>
 			</c:if>
 			<c:forEach var="myTodayOrder" items="${myOrderList}">
 				<p>${myTodayOrder.menuName}</p>
@@ -98,7 +96,9 @@ $(function() {
 				</div>
 				<p>価格: ${myTodayOrder.price}</p>
 			</c:forEach>
-			<a href="deleteTodayOrder">本日の注文を取り消す</a>
+			<c:if test="${orderFlag == 0}">
+				<a href="deleteTodayOrder">本日の注文を取り消す</a>
+			</c:if>
 		</div>
 		<h1>${category.name}</h1>
 		<c:forEach var="menuList" items="${menuListList}" varStatus="status">
@@ -133,7 +133,12 @@ $(function() {
 									<input type="radio" name="rice_big" value="1">大盛り
 								</c:if>
 							</div>
-							<button type="submit">注文を確定する</button>
+							<c:if test="${orderFlag == 0}">
+								<button type="submit">注文を追加する</button>
+							</c:if>
+							<c:if test="${orderFlag == 1}">
+								<p>本日の注文受付は終了しました。</p>
+							</c:if>
 						</form>
 						<span class="close" id="${menu.id}">△</span>
 					</div>
@@ -143,9 +148,8 @@ $(function() {
 					<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
 				</div>
 			</c:forEach>
-		</c:forEach>
-		
-	</div>
+		</c:forEach>	
+	</main>
 	<footer></footer>
 
 </body>

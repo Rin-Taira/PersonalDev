@@ -31,8 +31,8 @@
 				<a href="menu.html">キッチントライ弁当注文</a>
 			</h1>
 			<div class="user">
-				<c:if test="${not empty user}">
-					<p class="user_name">${user.name}さん、こんにちは</p>
+				<c:if test="${not empty userName}">
+					<p class="user_name">${userName}さん、こんにちは</p>
 				</c:if>
 				<form class="logout_form" action="logout" method="post">
 					<button class="logout_btn" type="submit">
@@ -53,8 +53,16 @@
 				<p>paypay対応</p>
 			</c:if>
 		</div>
-		<a href="updateManager">注文を完了しました。</a>
-		<c:if test="${orderList}">
+		<c:if test="${orderFlag == 0}">
+			<c:if test="${todayManager.name != userName}">
+				<p>あなたは本日の注文者ではありません。それでも注文した場合のみ下記の操作をしてください。</p>
+			</c:if>
+			<a href="updateManager">注文済みにする。</a>
+		</c:if>
+		<c:if test="${orderFlag == 1}">
+			<p>本日は注文完了しています。</p>
+		</c:if>
+		<c:if test="${empty orderList}">
 			<h1>本日はまだ注文がありません。</h1>
 		</c:if>
 		<c:forEach var="order" items="${orderList}">

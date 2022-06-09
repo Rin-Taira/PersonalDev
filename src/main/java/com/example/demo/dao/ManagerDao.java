@@ -6,6 +6,6 @@ public interface ManagerDao {
     
     public int getTodayManager();
     
-    public String isCompleteTodayOrder();
+    public int isCompleteTodayOrder();
     
 }
