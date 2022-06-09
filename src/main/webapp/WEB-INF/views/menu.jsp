@@ -43,21 +43,24 @@ $(function() {
 	
 	<main class="flex">
 		<div class="left">
-			<c:if test="${orderFlag == 0}">
-				<h1>未注文</h1>
-			</c:if>
-			<c:if test="${orderFlag == 1}">
-				<h1>注文済</h1>
-			</c:if>
 			<div>
 				<h1>${orderMsg}</h1>
-				<h1>本日の注文担当</h1>
-				<p>${todayManager.name}</p>
+				<p class="little_title">本日の注文担当</p>
+				<p>
+					<img src="../images/cat.png" class="cat_icon">
+					${todayManager.name}
+					<c:if test="${todayManager.paypayFlag == 1}">
+						<img src="../images/paypay.jpg" class="paypay_icon">
+					</c:if>
+				</p>
 				<p>${todayManager.introduce}</p>
-				<c:if test="${todayManager.paypayFlag == 1}">
-					<p>paypay対応</p>
-				</c:if>
 				<a href="orderDetail">本日の注文を確認する</a>
+				<c:if test="${orderFlag == 0}">
+					<h1>未注文</h1>
+				</c:if>
+				<c:if test="${orderFlag == 1}">
+					<h1>注文済</h1>
+				</c:if>
 			</div>
 		</div>
 		
@@ -65,15 +68,15 @@ $(function() {
 			<c:if test="${not empty msg}">
 				<p class="user_name">${msg}</p>
 			</c:if>
-			<h1>${category.name}</h1>
+			<p class="little_title">${category.name}</p>
 			<c:forEach var="menuList" items="${menuListList}" varStatus="status">
-				<h1>${categoryList[status.index].name}</h1>
+				<p class="category_name">${categoryList[status.index].name}</p>
 				<c:forEach var="menu" items="${menuList}">
 					<div class="menu">
 						<div class="open" id="${menu.id}">
-							<h2>${menu.menuName} レビュー件数: ${menu.reviewAmount}
+							<p class="little_title">${menu.menuName} レビュー件数: ${menu.reviewAmount}
 								<c:if test="${menu.reviewAmount != 0}">評価: ${menu.reviewStarAmount / menu.reviewAmount}</c:if>
-							</h2>
+							</p>
 							<p>基本価格: ${menu.price}</p>
 							<p>${menu.description}</p>
 						</div>
@@ -99,13 +102,20 @@ $(function() {
 									</c:if>
 								</div>
 								<c:if test="${orderFlag == 0}">
-									<button class="btn btn-outline-primary" type="submit">注文を追加する</button>
+									<div id="flex">
+										<button class="btn btn-outline-primary" type="submit">注文を追加する</button>
+										<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+	  										<path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+										</svg>
+									</div>
 								</c:if>
 								<c:if test="${orderFlag == 1}">
 									<p>本日の注文受付は終了しました。</p>
+									<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+  										<path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+									</svg>
 								</c:if>
 							</form>
-							<span class="close btn btn-outline-primary" id="${menu.id}">△</span>
 						</div>
 						<c:if test="${menu.reviewAmount > 0}">
 							<a href="review?id=${menu.id}">レビューを見る</a>
@@ -117,13 +127,13 @@ $(function() {
 		</div>
 		
 		<div class="right">
-			<h1>本日のあなたの注文</h1>
+			<p class="little_title">本日のあなたの注文</p>
 			<c:if test="${empty myOrderList}">
 				<p>あなたはまだ弁当を記入していませんよ。おわすれなく！</p>
 			</c:if>
 			<c:forEach var="myTodayOrder" items="${myOrderList}">
 				<div class="menu">
-					<p>${myTodayOrder.menuName}</p>
+					<p class="little_title">${myTodayOrder.menuName}</p>
 					<div>サイズ:
 						<c:if test="${myTodayOrder.bigFlag == 0}">小</c:if>
 						<c:if test="${myTodayOrder.bigFlag == 1}">大</c:if>
@@ -139,7 +149,7 @@ $(function() {
 					<p>価格: ${myTodayOrder.price}</p>
 				</div>
 			</c:forEach>
-			<c:if test="${orderFlag == 0}">
+			<c:if test="${orderFlag == 0 && not empty myOrderList}">
 				<a href="deleteTodayOrder">本日の注文を取り消す</a>
 			</c:if>
 		</div>

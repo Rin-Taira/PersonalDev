@@ -69,6 +69,27 @@ footer {
 	border-top: 1px solid #000000;
 }
 
+.cat_icon {
+	width: 60px;
+	height: 60px;
+}
+
+.paypay_icon {
+	width: 20px;
+	height: 20px;
+}
+
+.little_title {
+	font-size: 25px;
+}
+
+.category_name {
+	font-size: 35px;
+	margin-top: 20px;
+	margin-left: 10px;
+	border-left: 3px solid black;
+}
+
 .open:hover, .close:hover{
 	opacity: 0.5;
 }

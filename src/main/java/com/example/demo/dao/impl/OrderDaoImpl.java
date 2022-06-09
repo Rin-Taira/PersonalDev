@@ -42,7 +42,11 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> findTodayOrderByUser(int id) {
     	MapSqlParameterSource param = new MapSqlParameterSource();
     	param.addValue("userId", id);
-		return jdbcTemplate.query("SELECT menu_id, om.name AS menu_name, user_id, u.name AS user_name, brown_flag, big_flag, rice_inc_flag, price, order_date FROM (SELECT menu_id, name, user_id, brown_flag, big_flag, rice_inc_flag, price, order_date FROM orders JOIN menu AS m ON menu_id = m.id WHERE to_char(order_date, 'YYYY-mm=dd') = to_char(now(), 'YYYY-mm=dd')) AS om JOIN users AS u ON user_id = u.id WHERE user_id = :userId", param, new BeanPropertyRowMapper<Order>(Order.class));
+		List<Order> orderList = jdbcTemplate.query("SELECT menu_id, om.name AS menu_name, user_id, u.name AS user_name, brown_flag, big_flag, rice_inc_flag, price, order_date FROM (SELECT menu_id, name, user_id, brown_flag, big_flag, rice_inc_flag, price, order_date FROM orders JOIN menu AS m ON menu_id = m.id WHERE to_char(order_date, 'YYYY-mm=dd') = to_char(now(), 'YYYY-mm=dd')) AS om JOIN users AS u ON user_id = u.id WHERE user_id = :userId", param, new BeanPropertyRowMapper<Order>(Order.class));
+		for (Order order: orderList) {
+    		order.setPrice(order.getPrice() + 0 * order.getBrownFlag() + 120 * order.getBigFlag() + 50 * order.getRiceIncFlag());
+    	}
+    	return orderList;
     }
     
     @Override
