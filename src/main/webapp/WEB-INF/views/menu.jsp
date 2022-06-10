@@ -56,6 +56,14 @@ $(function() {
 			<div>
 				<h1>${orderMsg}</h1>
 				<p class="little_title">本日の注文担当</p>
+				<div class="balloon2">
+					<c:if test="${orderFlag == 0}">
+  						<p>注文済みだよ</p>
+  					</c:if>
+  					<c:if test="${orderFlag == 1}">
+						<p>まだ注文してないよ</p>
+					</c:if>
+				</div>
 				<p>
 					<img src="../images/cat.png" class="cat_icon">
 					${todayManager.name}
@@ -63,14 +71,10 @@ $(function() {
 						<img src="../images/paypay.jpg" class="paypay_icon">
 					</c:if>
 				</p>
-				<p>${todayManager.introduce}</p>
+				<div class="balloon2-top">
+					<p>${todayManager.introduce}</p>
+				</div>
 				<a href="orderDetail">本日の注文を確認する</a>
-				<c:if test="${orderFlag == 0}">
-					<h1>未注文</h1>
-				</c:if>
-				<c:if test="${orderFlag == 1}">
-					<h1>注文済</h1>
-				</c:if>
 			</div>
 		</div>
 		
@@ -84,30 +88,35 @@ $(function() {
 				<c:forEach var="menu" items="${menuList}">
 					<div class="menu">
 						<div class="open" id="${menu.id}">
-							<p class="little_title">${menu.menuName} レビュー件数: ${menu.reviewAmount}
-								<c:if test="${menu.reviewAmount != 0}">平均評価:
+							<p class="little_title">${menu.menuName}
+								<c:if test="${menu.reviewAmount != 0}"> 平均評価:
 									<fmt:formatNumber value="${menu.reviewStarAmount / menu.reviewAmount}" maxFractionDigits="1"/>
 								</c:if>
 							</p>
+							<c:if test="${menu.reviewAmount > 0}">
+								<a href="review?id=${menu.id}">レビューを見る(${menu.reviewAmount})</a>
+							</c:if>
+							<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
 							<p>基本価格: ${menu.price}</p>
 							<p>${menu.description}</p>
+							<img src="../images/menu.png" class="menu_img">
 						</div>
 						<div class="passive ${menu.id}">
 							<form action="orderCommit" method="get">
 								<input type="hidden" name="id" value="${menu.id}">
-								<div>サイズ
+								<div>サイズ: 
 								<input type="radio" name="big" value="0" checked>小
 									<c:if test="${menu.categoryId == 1}">
 										<input type="radio" name="big" value="1">大
 									</c:if>
 								</div>
-								<div>お米の種類
+								<div>お米の種類: 
 									<input type="radio" name="brown" value="0" checked>白米
 									<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
 										<input type="radio" name="brown" value="1">玄米
 									</c:if>
 								</div>
-								<div>ご飯の量
+								<div>ご飯の量: 
 									<input type="radio" name="rice_big" value="0" checked>普通盛り
 									<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
 										<input type="radio" name="rice_big" value="1">大盛り
@@ -129,10 +138,6 @@ $(function() {
 								</c:if>
 							</form>
 						</div>
-						<c:if test="${menu.reviewAmount > 0}">
-							<a href="review?id=${menu.id}">レビューを見る</a>
-						</c:if>
-						<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
 					</div>
 				</c:forEach>
 			</c:forEach>
@@ -140,6 +145,7 @@ $(function() {
 		
 		<div class="right">
 			<p class="little_title">本日のあなたの注文</p>
+			<img src="../images/cart.png">
 			<c:if test="${empty myOrderList}">
 				<p>あなたはまだ弁当を記入していませんよ。おわすれなく！</p>
 			</c:if>

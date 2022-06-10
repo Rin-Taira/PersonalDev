@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ログイン</title>
+<title>レビュー投稿</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link href="css/commons.css" rel="stylesheet">
 </head>
@@ -35,6 +35,14 @@
 			<div>
 				<h1>${orderMsg}</h1>
 				<p class="little_title">本日の注文担当</p>
+				<div class="balloon2">
+					<c:if test="${orderFlag == 0}">
+  						<p>注文済みだよ</p>
+  					</c:if>
+  					<c:if test="${orderFlag == 1}">
+						<p>まだ注文してないよ</p>
+					</c:if>
+				</div>
 				<p>
 					<img src="../images/cat.png" class="cat_icon">
 					${todayManager.name}
@@ -42,35 +50,29 @@
 						<img src="../images/paypay.jpg" class="paypay_icon">
 					</c:if>
 				</p>
-				<p>${todayManager.introduce}</p>
+				<div class="balloon2-top">
+					<p>${todayManager.introduce}</p>
+				</div>
 				<a href="orderDetail">本日の注文を確認する</a>
-				<c:if test="${orderFlag == 0}">
-					<h1>未注文</h1>
-				</c:if>
-				<c:if test="${orderFlag == 1}">
-					<h1>注文済</h1>
-				</c:if>
 			</div>
 		</div>
 		<div class="center">
-			<h1>レビュー投稿</h1>
-			<h1>${menu.menuName}</h1>
-			<form:form action="reviewCommit" modelAttribute="review" method="get">
+			<p class="category_name">レビュー投稿</p>
+			<p class="little_title">${menu.menuName}</p>
+			<form:form action="reviewCommit" modelAttribute="review" method="get" class="mb-3">
 				<form:input type="hidden" path="menuId" value="${menu.id}"/>
 				<form:input type="hidden" path="userId" value="${user.id}"/>
 				<fieldset>
-					<div class="cp_iptxt">
-						<form:input class="base_input" type="number" path="star" placeholder="★評価"/>
-						<form:errors path="star" cssStyle="color: red"/>
-						<i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-					</div>
-	
 					<div>
-						<form:textarea  class="base_input" path="review" placeholder="レビューを記入してください(任意)"/>
-						<form:errors path="review" cssStyle="color: red"/>
+						<form:input class="form-control" type="number" path="star" placeholder="★評価"/>
+						<form:errors path="star" cssStyle="color: black"/>
+					</div>
+					<div>
+						<form:textarea class="form-control" path="review" placeholder="レビューを記入してください(任意)"/>
+						<form:errors path="review" cssStyle="color: black"/>
 					</div>
 				</fieldset>
-				<form:button type="submit">送信</form:button>
+				<form:button class="btn btn-outline-primary" type="submit">送信</form:button>
 			</form:form>
 		</div>
 		<div class="right">
