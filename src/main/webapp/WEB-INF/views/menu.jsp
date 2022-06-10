@@ -22,14 +22,12 @@ $(function() {
 	$(".open").on("click", function() {
 		var id = $(this).attr("id");
 		$('.' + id).slideDown("normal");
-		$('.' + id + 'show').toggleClass("passive");
 	});
 	$(".close").on("click", function() {
 		var id2 = $(this).attr("id");
 		$('.' + id2).slideUp("normal");
 	});
 });
-
 </script>
 </head>
 
