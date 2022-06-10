@@ -59,7 +59,7 @@ $(function() {
 				</p>
 				<div class="balloon2">
 					<c:if test="${orderFlag == 1}">
-  						<p>注文済みだよ</p>
+  						<p class="warn">注文済みだよ</p>
   					</c:if>
   					<c:if test="${orderFlag == 0}">
 						<p>まだ注文してないよ</p>
@@ -75,7 +75,9 @@ $(function() {
 				<div class="balloon2-top">
 					<p>${todayManager.introduce}</p>
 				</div>
-				<a href="orderDetail">本日の注文を確認する</a>
+				<a href="orderDetail">
+					<button class="btn btn-outline-primary" type="button">みんなの注文を確認する</button>
+				</a>
 			</div>
 		</div>
 		
@@ -101,6 +103,7 @@ $(function() {
 									<c:if test="${menu.reviewAmount > 0}">
 										<a href="review?id=${menu.id}">レビューを見る(${menu.reviewAmount})</a>
 									</c:if>
+									<br>
 									<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
 								</div>
 								<img src="../images/menu.png" class="menu_img">
@@ -112,23 +115,19 @@ $(function() {
 							</div>
 						</div>
 						<div class="passive ${menu.id}">
+							<div class="align_center close" id="${menu.id}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
+  									<path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
+								</svg>
+							</div>
 							<form action="orderCommit" method="get">
 								<input type="hidden" name="id" value="${menu.id}">
 								<div class="flex-start">
 									<c:if test="${orderFlag == 0}">
-										<div>
-											<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
-  												<path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
-												</svg>
-											<br>
-											<button class="btn btn-outline-primary" type="submit">注文に追加</button>
-										</div>
+										<button class="btn btn-outline-primary" type="submit">注文に追加</button>
 									</c:if>
 									<c:if test="${orderFlag == 1}">
-										<p>本日の注文受付は終了しました。</p>
-										<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
-	  										<path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
-										</svg>
+										<button class="btn btn-outline-primary" type="submit" disabled>受付終了</button>
 									</c:if>
 									<div>サイズ<br>
 										<input type="radio" name="big" value="0" checked>小<br>
@@ -161,7 +160,7 @@ $(function() {
 				<img src="../images/cart.png" class="title-icon">
 			</p>
 			<c:if test="${empty myOrderList}">
-				<p>あなたのカートはまだ空ですよ。本日の注文をおわすれなく！</p>
+				<p class="warn">あなたのカートはまだ空ですよ。本日の注文をおわすれなく！</p>
 			</c:if>
 			<c:forEach var="myTodayOrder" items="${myOrderList}">
 				<div class="menu">
@@ -182,7 +181,9 @@ $(function() {
 				</div>
 			</c:forEach>
 			<c:if test="${orderFlag == 0 && not empty myOrderList}">
-				<a href="deleteTodayOrder">本日の注文を取り消す</a>
+				<a href="deleteTodayOrder">
+					<button class="btn btn-outline-primary" type="button">注文を取り消す</button>
+				</a>
 			</c:if>
 		</div>
 	</main>

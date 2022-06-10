@@ -16,7 +16,7 @@ header {
     z-index: 500;
 }
 
-header a {
+a {
     text-decoration: none;
 }
 
@@ -158,6 +158,11 @@ footer {
 	display: none;
 }
 
+.warn {
+	font-size: 20px;
+	color: red;
+}
+
 #login {
     background-color: rgba(255, 255, 255, 90%);
     border-radius: 10px;
@@ -211,6 +216,10 @@ footer {
 	border-left: 3px solid black;
 	border-bottom: 1px solid black;
 	padding-left: 10px;
+}
+
+#review-form div {
+	margin-top: 30px;
 }
 
 .open:hover, .close:hover{

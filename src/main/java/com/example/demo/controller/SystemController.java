@@ -60,6 +60,15 @@ public class SystemController {
         return "index";
     }
     
+    @RequestMapping("/returnMenu")
+    public String returnMenu(@ModelAttribute("user") UserForm form, Model model) {
+
+    	int orderFlag = managerService.isCompleteTodayOrder();
+    	
+    	model.addAttribute("orderFlag", orderFlag);
+        return "menu";
+    }
+    
     @RequestMapping(value="/login", method=RequestMethod.POST)
     public String login(@Validated @ModelAttribute("user") UserForm form, BindingResult bindingResult, @ModelAttribute("product") MenuForm menuForm, Model model) {
     	

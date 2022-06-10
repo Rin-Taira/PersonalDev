@@ -39,12 +39,14 @@
 		<div class="left">
 			<div>
 				<h1>${orderMsg}</h1>
-				<p class="little_title">本日の注文担当</p>
+				<p class="little_title">本日の注文担当
+					<img src="../images/bell.png" class="title-icon">
+				</p>
 				<div class="balloon2">
-					<c:if test="${orderFlag == 0}">
-  						<p>注文済みだよ</p>
+					<c:if test="${orderFlag == 1}">
+  						<p class="warn">注文済みだよ</p>
   					</c:if>
-  					<c:if test="${orderFlag == 1}">
+  					<c:if test="${orderFlag == 0}">
 						<p>まだ注文してないよ</p>
 					</c:if>
 				</div>
@@ -58,26 +60,35 @@
 				<div class="balloon2-top">
 					<p>${todayManager.introduce}</p>
 				</div>
-				<a href="orderDetail">本日の注文を確認する</a>
+				<a href="orderDetail">
+					<button class="btn btn-outline-primary" type="button">みんなの注文を確認する</button>
+				</a>
 			</div>
 		</div>
+		
 		<div class="center">
-			<c:if test="${orderFlag == 0}">
+			<p>
+				<a href="returnMenu">メニューへ戻る</a>
+			</p>
+			<c:if test="${orderFlag == 0 && not empty orderList}">
+				<p class="little_title">本日はまだ注文完了していません。</p>
 				<c:if test="${todayManager.name != userName}">
-					<p>あなたは本日の注文者ではありません。それでも注文した場合のみ下記の操作をしてください。</p>
+					<p class="warn">あなたは本日の注文者ではありません。それでも注文した場合のみ注文完了ボタンを押下してください。</p>
 				</c:if>
-				<a href="updateManager">注文済みにする。</a>
+				<a href="updateManager">
+					<button class="btn btn-outline-primary" type="button">注文完了</button>
+				</a>
 			</c:if>
 			<c:if test="${orderFlag == 1}">
-				<p>本日は注文完了しています。</p>
+				<p class="little_title">本日は注文完了しています。</p>
 			</c:if>
 			<c:if test="${empty orderList}">
-				<h1>本日はまだ注文がありません。</h1>
+				<button class="btn btn-outline-primary" type="button" disabled>本日はまだ注文がありません。</button>
 			</c:if>
 			<c:forEach var="order" items="${orderList}">
-				<div>
-					<p>${order.userName}</p>
-					<p>${order.menuName}</p>
+				<div class="menu">
+					<p>注文者: ${order.userName}</p>
+					<p>メニュー: ${order.menuName}</p>
 					<div>サイズ:
 						<c:if test="${order.bigFlag == 0}">小</c:if>
 						<c:if test="${order.bigFlag == 1}">大</c:if>
@@ -94,10 +105,13 @@
 				</div>
 			</c:forEach>
 		</div>
+		
 		<div class="right">
-			<p class="little_title">本日のあなたの注文</p>
+			<p class="little_title">あなたのカート
+				<img src="../images/cart.png" class="title-icon">
+			</p>
 			<c:if test="${empty myOrderList}">
-				<p>あなたはまだ弁当を記入していませんよ。おわすれなく！</p>
+				<p class="warn">あなたのカートはまだ空ですよ。本日の注文をおわすれなく！</p>
 			</c:if>
 			<c:forEach var="myTodayOrder" items="${myOrderList}">
 				<div class="menu">
@@ -118,7 +132,9 @@
 				</div>
 			</c:forEach>
 			<c:if test="${orderFlag == 0 && not empty myOrderList}">
-				<a href="deleteTodayOrder">本日の注文を取り消す</a>
+				<a href="deleteTodayOrder">
+					<button class="btn btn-outline-primary" type="button">注文を取り消す</button>
+				</a>
 			</c:if>
 		</div>
 	</main>
