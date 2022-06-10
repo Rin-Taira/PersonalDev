@@ -38,6 +38,16 @@ footer {
 
 .flex {
 	display: flex;
+	justify-content: space-between;
+}
+
+.flex-start {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.flex-start div {
+	margin: 15px 15px;
 }
 
 .left {
@@ -162,16 +172,18 @@ footer {
 
 .menu {
 	border-bottom: 1px solid black;
+	padding: 10px 20px 20px 20px;
+	margin-bottom: 30px;
 }
 
 .menu_img {
-	width: 100px;
-	height: 100px;
+	width: 200px;
+	height: 200px;
 }
 
 .cat_icon {
-	width: 60px;
-	height: 60px;
+	width: 80px;
+	height: 80px;
 }
 
 .paypay_icon {
@@ -179,8 +191,17 @@ footer {
 	height: 20px;
 }
 
+.close {
+	margin-bottom: 10px;
+}
+
 .little_title {
 	font-size: 25px;
+}
+
+.title-icon {
+	width: 35px;
+	height: 35px;
 }
 
 .category_name {

@@ -22,6 +22,7 @@ $(function() {
 	$(".open").on("click", function() {
 		var id = $(this).attr("id");
 		$('.' + id).slideDown("normal");
+		$('.' + id + 'show').toggleClass("passive");
 	});
 	$(".close").on("click", function() {
 		var id2 = $(this).attr("id");
@@ -55,12 +56,14 @@ $(function() {
 		<div class="left">
 			<div>
 				<h1>${orderMsg}</h1>
-				<p class="little_title">本日の注文担当</p>
+				<p class="little_title">本日の注文担当
+					<img src="../images/bell.png" class="title-icon">
+				</p>
 				<div class="balloon2">
-					<c:if test="${orderFlag == 0}">
+					<c:if test="${orderFlag == 1}">
   						<p>注文済みだよ</p>
   					</c:if>
-  					<c:if test="${orderFlag == 1}">
+  					<c:if test="${orderFlag == 0}">
 						<p>まだ注文してないよ</p>
 					</c:if>
 				</div>
@@ -88,54 +91,66 @@ $(function() {
 				<c:forEach var="menu" items="${menuList}">
 					<div class="menu">
 						<div class="open" id="${menu.id}">
-							<p class="little_title">${menu.menuName}
-								<c:if test="${menu.reviewAmount != 0}"> 平均評価:
-									<fmt:formatNumber value="${menu.reviewStarAmount / menu.reviewAmount}" maxFractionDigits="1"/>
-								</c:if>
-							</p>
-							<c:if test="${menu.reviewAmount > 0}">
-								<a href="review?id=${menu.id}">レビューを見る(${menu.reviewAmount})</a>
-							</c:if>
-							<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
-							<p>基本価格: ${menu.price}</p>
-							<p>${menu.description}</p>
-							<img src="../images/menu.png" class="menu_img">
+							<div class="flex">
+								<div>
+									<p class="little_title">${menu.menuName}
+										<c:if test="${menu.reviewAmount != 0}"> 平均評価:
+											<fmt:formatNumber value="${menu.reviewStarAmount / menu.reviewAmount}" maxFractionDigits="1"/>
+										</c:if>
+									</p>
+									<p>${menu.description}</p>
+									<p>￥${menu.price}</p>
+									<c:if test="${menu.reviewAmount > 0}">
+										<a href="review?id=${menu.id}">レビューを見る(${menu.reviewAmount})</a>
+									</c:if>
+									<a href="reviewPost?menuId=${menu.id}">レビューを投稿する</a>
+								</div>
+								<img src="../images/menu.png" class="menu_img">
+							</div>
+							<div class="align_center ${menu.id}show">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+	  								<path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+								</svg>
+							</div>
 						</div>
 						<div class="passive ${menu.id}">
 							<form action="orderCommit" method="get">
 								<input type="hidden" name="id" value="${menu.id}">
-								<div>サイズ: 
-								<input type="radio" name="big" value="0" checked>小
-									<c:if test="${menu.categoryId == 1}">
-										<input type="radio" name="big" value="1">大
+								<div class="flex-start">
+									<c:if test="${orderFlag == 0}">
+										<div>
+											<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-up" viewBox="0 0 16 16">
+  												<path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
+												</svg>
+											<br>
+											<button class="btn btn-outline-primary" type="submit">注文に追加</button>
+										</div>
 									</c:if>
-								</div>
-								<div>お米の種類: 
-									<input type="radio" name="brown" value="0" checked>白米
-									<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
-										<input type="radio" name="brown" value="1">玄米
-									</c:if>
-								</div>
-								<div>ご飯の量: 
-									<input type="radio" name="rice_big" value="0" checked>普通盛り
-									<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
-										<input type="radio" name="rice_big" value="1">大盛り
-									</c:if>
-								</div>
-								<c:if test="${orderFlag == 0}">
-									<div id="flex">
-										<button class="btn btn-outline-primary" type="submit">注文を追加する</button>
+									<c:if test="${orderFlag == 1}">
+										<p>本日の注文受付は終了しました。</p>
 										<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
 	  										<path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
 										</svg>
+									</c:if>
+									<div>サイズ<br>
+										<input type="radio" name="big" value="0" checked>小<br>
+										<c:if test="${menu.categoryId == 1}">
+											<input type="radio" name="big" value="1">大(+￥120)
+										</c:if>
 									</div>
-								</c:if>
-								<c:if test="${orderFlag == 1}">
-									<p>本日の注文受付は終了しました。</p>
-									<svg id="${menu.id}" class="close" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
-  										<path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
-									</svg>
-								</c:if>
+									<div>お米の種類<br>
+										<input type="radio" name="brown" value="0" checked>白米<br>
+										<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
+											<input type="radio" name="brown" value="1">玄米(+￥0)
+										</c:if>
+									</div>
+									<div>ご飯の量<br>
+										<input type="radio" name="rice_big" value="0" checked>普通盛り<br>
+										<c:if test="${menu.categoryId == 1 || menu.categoryId == 2}">
+											<input type="radio" name="rice_big" value="1">大盛り(+￥50)
+										</c:if>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -144,10 +159,11 @@ $(function() {
 		</div>
 		
 		<div class="right">
-			<p class="little_title">本日のあなたの注文</p>
-			<img src="../images/cart.png">
+			<p class="little_title">あなたのカート
+				<img src="../images/cart.png" class="title-icon">
+			</p>
 			<c:if test="${empty myOrderList}">
-				<p>あなたはまだ弁当を記入していませんよ。おわすれなく！</p>
+				<p>あなたのカートはまだ空ですよ。本日の注文をおわすれなく！</p>
 			</c:if>
 			<c:forEach var="myTodayOrder" items="${myOrderList}">
 				<div class="menu">
